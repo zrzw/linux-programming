@@ -15,13 +15,19 @@ main()
          *  AI_PASSIVE: socket is intended for bind() (server)
          *
          */
-        // hints.ai_flags = AI_PASSIVE;
-        hints.ai_family = AF_UNSPEC; /* Use AF_INET for IPv4 only */
+        hints.ai_flags = AI_CANONNAME;
+        hints.ai_family = AF_INET; /* Use AF_INET for IPv4 only */
         hints.ai_socktype = SOCK_STREAM;
-        int status = getaddrinfo("www.google.com", "80", &hints, &servinfo);
+        int status = getaddrinfo("8.8.8.8", "80", &hints, &servinfo);
+
         if(status != 0){
                 fprintf(stderr, "getaddrinfo error: %s\n", gai_strerror(status));
                 exit(1);
+        }
+        struct addrinfo *p = servinfo;
+        while(p != NULL) {
+                fprintf(stdout, "result: %s\n", p->ai_canonname);
+                p = p->ai_next;
         }
         freeaddrinfo(servinfo);
 }
