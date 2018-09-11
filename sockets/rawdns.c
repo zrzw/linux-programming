@@ -20,14 +20,16 @@ int
 rawdns(const char* ip_str)
 {
         int s = socket(PF_INET, SOCK_RAW, IPPROTO_UDP);
-        if(s == -1) {
+        if(s == -1)
+        {
                 fprintf(stderr, "Error creating raw socket\n");
                 return -1;
         }
         struct sockaddr_in sa;
         sa.sin_family = AF_INET;
         int rc = inet_pton(AF_INET, ip_str, &(sa.sin_addr.s_addr));
-        if(rc != 1){
+        if(rc != 1)
+        {
                 fprintf(stderr, "Error filling sockaddr_in with given IP STR\n");
                 return -1;
         }
